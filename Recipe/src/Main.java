@@ -4,17 +4,17 @@ import java.util.Scanner;
 public class Main {
     public static void main (String[] args) {
 
-        Recipe storage = new Recipe();
-
-        boolean recipe_search = false;
-        ArrayList<String> storage_returned = storage.getStorage();
+        Storage storage = new Storage();
 
         while (true) {
             Scanner input = new Scanner(System.in);
-            System.out.println("Enter the name of Recipe: ");
+
+            System.out.println("If you want to search recipe in the database, please enter the name of recipe or part of ingredients: ");
             String recipe = input.next();
 
-            String findReceipt = storage.pull_receipt(recipe);
+            if (storage.storage) {
+
+            }
 
             if (findReceipt != null) {
                 System.out.println("The Receipt you try to access does exist.");
@@ -29,6 +29,22 @@ public class Main {
             }
 
             input.close();
+
+            System.out.println("Wanna Type Another Input?: Yes or No");
+            String cont = input.next();
+            cont.toLowerCase();
+
+            if (cont == "yes") {
+                continue;
+            }
+
+            else if (cont == "no") {
+                break;
+            }
+
+            else {
+                System.out.println("Wrong Command! Options are only yes/no.");
+            }
         }
     }
 }
