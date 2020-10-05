@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 public class Main {
     public static void main (String[] args) {
-
         Storage storage = new Storage();
 
         while (true) {
@@ -12,25 +11,14 @@ public class Main {
             System.out.println("If you want to search recipe in the database, please enter the name of recipe or part of ingredients: ");
             String recipe = input.next();
 
-            if (storage.storage) {
-
-            }
-
-            if (findReceipt != null) {
-                System.out.println("The Receipt you try to access does exist.");
-                System.out.println("Its ingredients include:");
-
-                int index = storage_returned.indexOf(findReceipt);
-                String [] ingredients = storage_returned.get(index);
-
-                for (int i = 0; i < ) {
-
-                }
+            if (storage.storage.contains(recipe)) {
+                int pick = storage.storage.indexOf(recipe);
+                Object choice = storage.storage.get(pick);
             }
 
             input.close();
 
-            System.out.println("Wanna Type Another Input?: Yes or No");
+            System.out.println("Wanna Type Another Input?: Yes or No (lowercase or uppercase does not matter)");
             String cont = input.next();
             cont.toLowerCase();
 
