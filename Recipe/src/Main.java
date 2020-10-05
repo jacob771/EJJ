@@ -4,14 +4,14 @@ import java.util.Scanner;
 public class Main {
     public static void main (String[] args) {
 
-        Receipt_storage storage = new Receipt_storage();
+        Recipe storage = new Recipe();
 
         boolean recipe_search = false;
         ArrayList<String> storage_returned = storage.getStorage();
 
         while (true) {
             Scanner input = new Scanner(System.in);
-            System.out.println("Enter the name of recipe: ");
+            System.out.println("Enter the name of Recipe: ");
             String recipe = input.next();
 
             String findReceipt = storage.pull_receipt(recipe);
