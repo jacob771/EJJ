@@ -19,19 +19,4 @@ public class Recipe {
     void setRecipe(String name, String description, ArrayList<String> ingredients, ArrayList<String> instructions) {
         Recipe recipe = new Recipe(name, description, ingredients, instructions);
     }
-
-    void getRecipe(String name) {
-    }
-
-    void getRecipe(String description) {
-
-    }
-
-    void getRecipe(ArrayList<String> ingredients) {
-
-    }
-
-    void getRecipe(ArrayList<String> instructions) {
-
-    }
 }
