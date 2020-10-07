@@ -1,11 +1,11 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public Main() {
     }
 
     public static void main (String[] args) {
-        RecipeBook recipeBook = new RecipeBook();
+        RecipeBook recipeBook = new RecipeBook(new ArrayList<Recipe>());
 
         while (true) {
 
@@ -22,9 +22,10 @@ public class Main {
              * Create New Recipe and Store in RecipeBook
              * */
 
-            if (recipeBook.storage.contains(recipe)) {
-                int pick = recipeBook.storage.indexOf(recipe);
-                Object choice = recipeBook.storage.get(pick);
+            if (recipeBook.recipeBook.contains(recipe)) {
+                System.out.println("RecipeBook Does Exist!");
+                int pick = recipeBook.recipeBook.indexOf(recipe);
+                Object choice = recipeBook.recipeBook.get(pick);
             }
 
             input.close();

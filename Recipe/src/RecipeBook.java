@@ -10,17 +10,26 @@ public class RecipeBook {
 
     /**
      * Put Certain Input, then it searches the Recipe.
-     * */
+     */
     private Recipe searchRecipeBook(String name) {
+        if (recipeBook.contains(name)) {
+            int index = recipeBook.indexOf(name);
+            return recipeBook.get(index);
+        }
+
+        else {
+            return null;
+        }
+    }
+
+    private Recipe searchRecipeBook(String [] ingredients) {
 
     }
 
     /**
      * Add new Recipe
-     * */
+     */
     private void addRecipe(Recipe recipe) {
         recipeBook.add(recipe);
     }
-
-
 }

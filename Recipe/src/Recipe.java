@@ -7,8 +7,6 @@ public class Recipe {
     private ArrayList<String> ingredients;
     private ArrayList<String> instructions;
 
-    RecipeBook recipeBook = new RecipeBook();
-
     Recipe(String name, String description, ArrayList<String> ingredients, ArrayList<String> instructions) {
         this.name = name;
         this.description = description;
