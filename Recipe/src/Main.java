@@ -8,10 +8,19 @@ public class Main {
         RecipeBook recipeBook = new RecipeBook();
 
         while (true) {
+
+            /**
+             * I/O Function
+             * */
+
             Scanner input = new Scanner(System.in);
 
             System.out.println("If you want to search recipe in the database, please enter the name of recipe or part of ingredients: ");
             String recipe = input.next();
+
+            /**
+             * Create New Recipe and Store in RecipeBook
+             * */
 
             if (recipeBook.storage.contains(recipe)) {
                 int pick = recipeBook.storage.indexOf(recipe);

@@ -8,7 +8,6 @@ public class Recipe {
     private ArrayList<String> instructions;
 
     RecipeBook recipeBook = new RecipeBook();
-    ArrayList <Recipe> database = recipeBook.storage;
 
     Recipe(String name, String description, ArrayList<String> ingredients, ArrayList<String> instructions) {
         this.name = name;
