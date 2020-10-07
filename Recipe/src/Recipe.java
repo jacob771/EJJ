@@ -7,8 +7,8 @@ public class Recipe {
     private ArrayList<String> ingredients;
     private ArrayList<String> instructions;
 
-    Storage storage = new Storage();
-    ArrayList <Recipe> database = storage.storage;
+    RecipeBook recipeBook = new RecipeBook();
+    ArrayList <Recipe> database = recipeBook.storage;
 
     Recipe(String name, String description, ArrayList<String> ingredients, ArrayList<String> instructions) {
         this.name = name;

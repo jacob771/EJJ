@@ -1,9 +1,11 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    public Main() {
+    }
+
     public static void main (String[] args) {
-        Storage storage = new Storage();
+        RecipeBook recipeBook = new RecipeBook();
 
         while (true) {
             Scanner input = new Scanner(System.in);
@@ -11,9 +13,9 @@ public class Main {
             System.out.println("If you want to search recipe in the database, please enter the name of recipe or part of ingredients: ");
             String recipe = input.next();
 
-            if (storage.storage.contains(recipe)) {
-                int pick = storage.storage.indexOf(recipe);
-                Object choice = storage.storage.get(pick);
+            if (recipeBook.storage.contains(recipe)) {
+                int pick = recipeBook.storage.indexOf(recipe);
+                Object choice = recipeBook.storage.get(pick);
             }
 
             input.close();
