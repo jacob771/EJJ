@@ -12,6 +12,12 @@ import org.json.simple.parser.ParseException;
 
 public class Main {
 
+    /**
+     * Main function handling the program logic
+     * @param args
+     * @throws IOException
+     * @throws ParseException
+     */
     public static void main (String[] args) throws IOException, ParseException {
         String recipesFilePath = "recipeBook.json";
         RecipeBook recipeBook = new RecipeBook(getRecipesFromJsonFile(recipesFilePath));
@@ -32,7 +38,13 @@ public class Main {
 
         addToJsonFile(recipeBook.getRecipeBook(), recipesFilePath);
     }
+    //TODO add UI to the main function
 
+    /**
+     * Creates a recipe object using user input
+     * @param input
+     * @return
+     */
     public static Recipe createRecipe(Scanner input)
     {
         ArrayList<String> ingredients = new ArrayList<String>();
@@ -71,8 +83,12 @@ public class Main {
         return newRecipe;
     }
 
-
-    public static ArrayList<Recipe> getRecipesFromJsonFile(String filePath) throws IOException, ParseException {
+    /**
+     * Reads the different recipes from the Json File and returns them as an ArrayList of Recipes
+     * @param filePath
+     * @return the Recipes as an arrayList
+     */
+    public static ArrayList<Recipe> getRecipesFromJsonFile(String filePath)  {
         ArrayList<Recipe> recipes = new ArrayList<>();
         File recipeFile = new File(filePath);
         if(recipeFile.length() == 0) {
@@ -90,14 +106,17 @@ public class Main {
                 ArrayList<String> instructions = (ArrayList<String>) recipe.get("instructions");
                 recipes.add(new Recipe(name, description, ingredients, instructions));
             }
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
-
         return recipes;
     }
 
-
+    /**
+     * Formats and adds the Recipe arrayList to the Json File
+     * @param recipes
+     * @param filePath
+     */
     public static void addToJsonFile(ArrayList<Recipe> recipes, String filePath) {
         ObjectMapper mapper = new ObjectMapper();
         try{
