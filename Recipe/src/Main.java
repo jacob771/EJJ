@@ -1,3 +1,4 @@
+import netscape.javascript.JSObject;
 import java.util.*;
 
 public class Main {
@@ -47,4 +48,9 @@ public class Main {
             }
         }
     }
+
+    public void testingJSON()
+    {
+    }
+
 }
