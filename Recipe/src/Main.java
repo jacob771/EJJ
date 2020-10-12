@@ -1,48 +1,110 @@
+import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Main {
 
-    public static void main (String[] args) {
-        RecipeBook recipeBook = new RecipeBook(new ArrayList<Recipe>());
-
-        while (true) {
-
-            /**
-             * I/O Function
-             * */
-
-            Scanner input = new Scanner(System.in);
-
-            System.out.println("If you want to search recipe in the database, please enter the name of recipe or part of ingredients: ");
-            String recipe = input.next();
-
-            /**
-             * Create New Recipe and Store in RecipeBook
-             * */
-
-            if (recipeBook.recipeBook.contains(recipe)) {
-                System.out.println("RecipeBook Does Exist!");
-                int pick = recipeBook.recipeBook.indexOf(recipe);
-                Object choice = recipeBook.recipeBook.get(pick);
+    public static void main (String[] args) throws IOException, ParseException {
+        String recipesFilePath = "recipeBook.json";
+        RecipeBook recipeBook = new RecipeBook(getRecipesFromJsonFile(recipesFilePath));
+        Scanner input = new Scanner(System.in);
+        String answer = null;
+        Boolean askForNew = null;
+        do {
+            System.out.println("Would you like to add a new recipe? (yes/no)");
+            answer = input.nextLine();
+            if(answer.toLowerCase().equals("no")) { askForNew = false; }
+            else if (answer.toLowerCase().equals("yes")) {
+                askForNew = true;
+                Recipe newRecipe = createRecipe(input);
+                recipeBook.getRecipeBook().add(newRecipe);
             }
+            else { askForNew = true; }
+        } while(answer.toLowerCase().equals("yes"));
 
-            input.close();
+        addToJsonFile(recipeBook.getRecipeBook(), recipesFilePath);
+    }
 
-            System.out.println("Wanna Type Another Input?: Yes or No (lowercase or uppercase does not matter)");
-            String cont = input.next();
-            cont.toLowerCase();
+    public static Recipe createRecipe(Scanner input)
+    {
+        ArrayList<String> ingredients = new ArrayList<String>();
+        ArrayList<String> instructions = new ArrayList<String>();
 
-            if (cont == "yes") {
-                continue;
+        System.out.println("What is the name of this recipe?: ");
+        String name = input.nextLine();
+        System.out.println("Please enter a short description?: ");
+        String description = input.nextLine();
+        Boolean addToList = true;
+        while (addToList) {
+            addToList = false;
+            System.out.println("Add an ingredient, if none type 'none': ");
+            String ingredient = input.nextLine();
+            if(!(ingredient.toLowerCase().equals("none"))) {
+                ingredients.add(ingredient);
+                addToList = true;
             }
+        }
 
-            else if (cont == "no") {
-                break;
+        addToList = true;
+        int num = 1;
+        while (addToList) {
+            addToList = false;
+            System.out.println("Please add a step to the instructions, if none type 'none': ");
+            String instruction = input.nextLine();
+            if(!(instruction.toLowerCase().equals("none"))) {
+                String formatted = String.format("%d.) %s", num,instruction);
+                instructions.add(formatted);
+                num++;
+                addToList = true;
             }
+        }
 
-            else {
-                System.out.println("Wrong Command! Options are only yes/no.");
+        Recipe newRecipe = new Recipe(name, description, ingredients, instructions);
+        return newRecipe;
+    }
+
+
+    public static ArrayList<Recipe> getRecipesFromJsonFile(String filePath) throws IOException, ParseException {
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        File recipeFile = new File(filePath);
+        if(recipeFile.length() == 0) {
+            return recipes;
+        }
+
+        try{
+            JSONParser parser = new JSONParser();
+            JSONArray a = (JSONArray) parser.parse(new FileReader(filePath));
+            for(Object o : a) {
+                JSONObject recipe = (JSONObject) o;
+                String name = (String) recipe.get("name");
+                String description = (String) recipe.get("description");
+                ArrayList<String> ingredients = (ArrayList<String>) recipe.get("ingredients");
+                ArrayList<String> instructions = (ArrayList<String>) recipe.get("instructions");
+                recipes.add(new Recipe(name, description, ingredients, instructions));
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return recipes;
+    }
+
+
+    public static void addToJsonFile(ArrayList<Recipe> recipes, String filePath) {
+        ObjectMapper mapper = new ObjectMapper();
+        try{
+            System.out.println(mapper.writeValueAsString(recipes));
+            mapper.writeValue(new File(filePath), recipes);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
