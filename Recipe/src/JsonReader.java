@@ -8,6 +8,8 @@ import org.json.simple.parser.ParseException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -94,8 +96,13 @@ public class JsonReader {
             }
         }
 
-        Recipe newRecipe = new Recipe(name, description, ingredients, instructions);
-        book.recipeBook.add(newRecipe);
+        try {
+            Recipe newRecipe = new Recipe(name, description, ingredients, instructions);
+            book.recipeBook.add(newRecipe);
+            mapper.writeValueAsString(newRecipe);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -144,7 +151,12 @@ public class JsonReader {
         }
     }
 
-    public static void searchJsonFile(String name) {
+    public static void searchJsonFile(String name) throws IOException {
+
+        RecipeBook book1 = mapper.readValue(new File("data.json"), RecipeBook.class);
+        RecipeBook book2 = mapper.readValue(new URL("http://some.com/api/entry.json"), RecipeBook.class);
+        RecipeBook book3 = mapper.readValue("{\"name\":\"Bob\", \"age\":13}", RecipeBook.class);
+
 
         if (mapper == null) {
             System.out.println("No such info");
