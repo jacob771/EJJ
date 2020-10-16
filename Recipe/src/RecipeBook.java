@@ -13,8 +13,9 @@ public class RecipeBook {
     ArrayList<Recipe> recipeBook = new ArrayList<Recipe>();
 
     public RecipeBook (ArrayList<Recipe> recipeBook) {
-        this.recipeBook = recipeBook;
     }
+
+    public RecipeBook() {}
 
     /**
      * Getter
@@ -38,7 +39,7 @@ public class RecipeBook {
         recipeBook.remove(index);
     }
 
-    private Recipe getRecipe(String name) {
+    Recipe getRecipe(String name) {
         int index = recipeBook.indexOf(name);
         Recipe recipe = recipeBook.get(index);
         return recipe;
@@ -82,5 +83,4 @@ public class RecipeBook {
     		return getRecipe(scoresMap.get(mapKeys.get(0)));
     	}
     }
-    
 }
