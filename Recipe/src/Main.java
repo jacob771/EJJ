@@ -26,11 +26,16 @@ public class Main {
 
         while (program) {
             Scanner function = new Scanner(System.in);
-            System.out.println("Which Function Do You Want? (1) Delete (3) Create (4) Search (5) Quit");
+            System.out.println("Which Function Do You Want? (1) Delete (2) Create (3) Search (4) Quit");
             choice = function.next().toLowerCase();
             switch (choice) {
 
+                /**
+                 * More functions could be added if you want.
+                 * */
+
                 case "delete":
+                    reader.deleteJsonFile(recipesFilePath);
                     break;
 
                 case "create":
@@ -38,10 +43,12 @@ public class Main {
                     break;
 
                 case "search":
+                    // to be modified by Joanne
                     Scanner read = new Scanner(System.in);
-                    System.out.println("Do you want to print any kind of recipe? Then put the name of the recipe: ");
-                    String recipeName = read.next();
-                    reader.searchJsonFile(recipeName);
+                    System.out.println("Enter the name of Recipe You want to search: (ex) Cake");
+                    String recipeName = read.next().toLowerCase();
+                    String thisFilePath = ; // need to get filePath from recipeName.
+                    reader.searchJsonFile(thisFilePath); // all further search process should be done at "search" function at JsonReader.
                     break;
 
                 case "quit":
@@ -51,6 +58,7 @@ public class Main {
 
                 default:
                     System.out.println("Enter Correct Option: ");
+                    break;
             }
         }
     }

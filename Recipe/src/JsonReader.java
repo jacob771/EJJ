@@ -22,6 +22,9 @@ public class JsonReader {
         this.mapper = mapper;
     }
 
+    /**
+     * Create Recipe
+     * */
     public static void createRecipe() {
         ArrayList<String> ingredients = new ArrayList<String>();
         ArrayList<String> instructions = new ArrayList<String>();
@@ -77,6 +80,10 @@ public class JsonReader {
                 }
             }
         }
+
+        /**
+         * Need maintenance - Saving into Json Array
+         * */
 
         try {
             Recipe newRecipe = new Recipe(name, description, ingredients, instructions);
@@ -135,6 +142,10 @@ public class JsonReader {
         }
     }
 
+    /**
+     * Reading Json File (Printing Out)
+     * */
+
     public static void searchJsonFile(String filePath) throws IOException {
         if (mapper == null) {
             System.out.println("No such info");
@@ -147,5 +158,11 @@ public class JsonReader {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static void deleteJsonFile(String filePath){
+        /**
+         * To be filled In.
+         * */
     }
 }
