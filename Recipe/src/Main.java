@@ -11,16 +11,14 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class Main {
-    static Recipe recipe;
-    static RecipeBook book = new RecipeBook();
-    static ObjectMapper mapper = new ObjectMapper();
-    static String choice = null;
-    static JsonReader reader = new JsonReader(mapper);
-    static String toCont1 = null;
-    static String toCont2 = null;
-    static ArrayList<String> ingredients = new ArrayList<String>();
-    static ArrayList<String> instructions = new ArrayList<String>();
-    // static Recipe recipesFilePath = "recipeBook.json";
+    private static Recipe recipe = new Recipe();
+    private static RecipeBook book = new RecipeBook();
+    private static ObjectMapper mapper = new ObjectMapper();
+    private static String choice = null;
+    private static JsonReader reader = new JsonReader(mapper);
+    private static ArrayList<String> ingredients = new ArrayList<String>();
+    private static ArrayList<String> instructions = new ArrayList<String>();
+    private static String recipesFilePath = "recipeBook.json";
 
     public static void main(String[] args) throws IOException, ParseException {
 

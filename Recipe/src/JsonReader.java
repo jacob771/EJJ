@@ -4,7 +4,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -100,7 +99,9 @@ public class JsonReader {
             Recipe newRecipe = new Recipe(name, description, ingredients, instructions);
             book.recipeBook.add(newRecipe);
             mapper.writeValueAsString(newRecipe);
-        } catch (Exception e) {
+        }
+
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -151,18 +152,12 @@ public class JsonReader {
         }
     }
 
-    public static void searchJsonFile(String name) throws IOException {
-
-        RecipeBook book1 = mapper.readValue(new File("data.json"), RecipeBook.class);
-        RecipeBook book2 = mapper.readValue(new URL("http://some.com/api/entry.json"), RecipeBook.class);
-        RecipeBook book3 = mapper.readValue("{\"name\":\"Bob\", \"age\":13}", RecipeBook.class);
-
-
+    public static void searchJsonFile(String filePath) throws IOException {
         if (mapper == null) {
             System.out.println("No such info");
         } else {
             try {
-                System.out.println(mapper.writeValueAsString(book.getRecipe(name)));
+                System.out.println(mapper.writeValueAsString(book.getRecipe(filePath)));
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
             } catch (Exception e) {
