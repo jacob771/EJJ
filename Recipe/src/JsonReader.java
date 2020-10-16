@@ -1,4 +1,3 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -7,8 +6,6 @@ import org.json.simple.parser.ParseException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -16,7 +13,6 @@ public class JsonReader {
     private static Recipe recipe;
     private static RecipeBook book = new RecipeBook();
     private static ObjectMapper mapper = new ObjectMapper();
-    private static JsonReader reader = new JsonReader(mapper);
     private static boolean cont = true;
     private static ArrayList<String> ingredients = new ArrayList<String>();
     private static ArrayList<String> instructions = new ArrayList<String>();
@@ -62,7 +58,6 @@ public class JsonReader {
         }
 
         cont = true;
-
         while (cont) {
             Scanner input3 = new Scanner(System.in);
             System.out.println("Please add new step to the instructions: ");

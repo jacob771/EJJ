@@ -31,6 +31,7 @@ public class Main {
             switch (choice) {
 
                 case "delete":
+                    break;
 
                 case "create":
                     reader.createRecipe();
