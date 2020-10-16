@@ -16,10 +16,8 @@ public class JsonReader {
     private static Recipe recipe;
     private static RecipeBook book = new RecipeBook();
     private static ObjectMapper mapper = new ObjectMapper();
-    private static String choice = null;
     private static JsonReader reader = new JsonReader(mapper);
-    private static String cont1 = null;
-    private static String cont2 = null;
+    private static boolean cont = true;
     private static ArrayList<String> ingredients = new ArrayList<String>();
     private static ArrayList<String> instructions = new ArrayList<String>();
     private static String recipesFilePath = "recipeBook.json";
@@ -36,61 +34,51 @@ public class JsonReader {
         System.out.println("What is the name of this recipe?: ");
         String name = input.next();
 
-        Scanner input1 = new Scanner(System.in);
+        Scanner descriptionInput = new Scanner(System.in);
         System.out.println("Please enter a short description?: ");
-        String description = input1.nextLine();
+        String description = descriptionInput.nextLine();
+        cont = true;
 
-        while (true) {
-            Scanner input2 = new Scanner(System.in);
+        while (cont) {
+            Scanner ingredientInput = new Scanner(System.in);
             System.out.println("Add an ingredient: ");
-
-            String ingredient = input2.nextLine();
+            String ingredient = ingredientInput.nextLine();
             ingredients.add(ingredient);
 
-            System.out.println("Are you going to add another? Yes or No: ");
-            cont1 = input1.next();
-
-            if (cont1.toLowerCase().equals("no")) {
-                break;
-            } else if (cont1.toLowerCase().equals("yes")) {
-                ingredients.add(input2.next());
-
+            while (true) {
+                Scanner inputCont = new Scanner(System.in);
                 System.out.println("Are you going to add another? Yes or No: ");
-                cont1 = input1.next();
+                String inputContinue1 = inputCont.nextLine();
 
-                if (cont1.toLowerCase().equals("no")) {
+                if (inputContinue1.toLowerCase().equals("no") || inputContinue1.toLowerCase().equals("yes")) {
+                    cont = (inputContinue1.toLowerCase().equals("no")) ? false : true;
                     break;
-                } else if (cont1.toLowerCase().equals("yes")) {
-                    continue;
                 } else {
                     System.out.println("Type only Yes or No.");
+                    continue;
                 }
             }
+
         }
 
-        while (true) {
+        cont = true;
+
+        while (cont) {
             Scanner input3 = new Scanner(System.in);
             System.out.println("Please add new step to the instructions: ");
-            String instruction = input3.nextLine();
-            instructions.add(instruction);
+            instructions.add(input3.next());
 
-            System.out.println("Are you going to add another? Yes or No: ");
-            cont2 = input3.next();
+            while (true) {
+                Scanner inputCont2 = new Scanner(System.in);
+                System.out.println("Are you going to update another step? Yes or No: ");
+                String inputContinue2 = inputCont2.next();
 
-            if (cont2.toLowerCase().equals("no")) {
-                break;
-            } else if (cont2.toLowerCase().equals("yes")) {
-                instructions.add(input3.nextLine());
-
-                System.out.println("Are you going to add another? Yes or No: ");
-                cont2 = input3.next();
-
-                if (cont2.toLowerCase().equals("no")) {
+                if (inputContinue2.toLowerCase().equals("no") || inputContinue2.toLowerCase().equals("yes")) {
+                    cont = (inputContinue2.toLowerCase().equals("no")) ? false : true;
                     break;
-                } else if (cont2.toLowerCase().equals("yes")) {
-                    continue;
                 } else {
                     System.out.println("Type only Yes or No.");
+                    continue;
                 }
             }
         }
