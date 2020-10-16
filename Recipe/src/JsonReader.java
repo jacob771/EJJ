@@ -8,26 +8,24 @@ import org.json.simple.parser.ParseException;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class JsonReader {
+    private static Recipe recipe;
+    private static RecipeBook book = new RecipeBook();
+    private static ObjectMapper mapper = new ObjectMapper();
+    private static String choice = null;
+    private static JsonReader reader = new JsonReader(mapper);
+    private static String cont1 = null;
+    private static String cont2 = null;
+    private static ArrayList<String> ingredients = new ArrayList<String>();
+    private static ArrayList<String> instructions = new ArrayList<String>();
+    private static String recipesFilePath = "recipeBook.json";
 
     public JsonReader(ObjectMapper mapper) {
         this.mapper = mapper;
     }
-
-    static Recipe recipe;
-    static RecipeBook book = new RecipeBook();
-    static ObjectMapper mapper = new ObjectMapper();
-    static String choice = null;
-    static JsonReader reader = new JsonReader(mapper);
-    static String cont1 = null;
-    static String cont2 = null;
-    static ArrayList<String> ingredients = new ArrayList<String>();
-    static ArrayList<String> instructions = new ArrayList<String>();
-    static String recipesFilePath = "recipeBook.json";
 
     public static void createRecipe() {
         ArrayList<String> ingredients = new ArrayList<String>();
