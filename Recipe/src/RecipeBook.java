@@ -3,16 +3,15 @@
 //import org.json.simple.parser.JSONParser;
 //import org.json.simple.parser.ParseException;
 
-import java.util.*;
-
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.*;
+import java.util.*;
 
 public class RecipeBook {
-    ArrayList<Recipe> recipeBook = new ArrayList<Recipe>();
+    ArrayList<Recipe> recipeBook;
 
     public RecipeBook (ArrayList<Recipe> recipeBook) {
+        this.recipeBook = recipeBook;
     }
 
     public RecipeBook() {}
@@ -27,7 +26,7 @@ public class RecipeBook {
     /**
      * Add new Recipe
      */
-    private void addRecipe (Recipe recipe) {
+    public void addRecipe (Recipe recipe) {
         recipeBook.add(recipe);
     }
 
@@ -66,21 +65,27 @@ public class RecipeBook {
      * @param recipe name query
      * @return recipe with lowest Levenshtein Distance score
      */
-    Recipe searchRecipe(String name) {
-    	HashMap<Integer, String> scoresMap = new HashMap<Integer, String>();
+    ArrayList<Recipe> searchRecipe(String name) {
+        HashMap<Recipe, Integer> scoresMap = new HashMap<Recipe, Integer>();
+        ArrayList<Recipe> foundRecipes = new ArrayList<Recipe>();
 
-    	for (int i = 0; i < recipeBook.size(); i++) {
-    		int distance = StringUtils.getLevenshteinDistance(recipeBook.get(i).getName(), name);
-    		scoresMap.put(distance, recipeBook.get(i).getName());
-    	}
-    	List<Integer> mapKeys = new ArrayList<>(scoresMap.keySet());
-    	Collections.sort(mapKeys);
-    	if (mapKeys.get(0) == 0) {
-    		//search is an exact match with search query
-    		return getRecipe(scoresMap.get(mapKeys.get(0)));
-    	} else { 
-    		//search is a fuzzy result with search query
-    		return getRecipe(scoresMap.get(mapKeys.get(0)));
-    	}
+        for (int i = 0; i < recipeBook.size(); i++) {
+            int distance = StringUtils.getLevenshteinDistance(recipeBook.get(i).getName(), name);
+            scoresMap.put(recipeBook.get(i), distance);
+        }
+        List<Integer> mapValues = new ArrayList<>(scoresMap.values());
+        Collections.sort(mapValues);
+
+        //get iterator for scoresMap
+        Iterator scoresIterator = scoresMap.entrySet().iterator();
+
+        //iterate thru scoresMap
+        while (scoresIterator.hasNext()) {
+            Map.Entry<Recipe,Integer> mapElement = (Map.Entry<Recipe,Integer>)scoresIterator.next();
+            if (mapElement.getValue() == mapValues.get(0)) {
+                foundRecipes.add(mapElement.getKey());
+            }
+        }
+        return foundRecipes;
     }
 }
