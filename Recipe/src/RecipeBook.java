@@ -66,7 +66,7 @@ public class RecipeBook {
      * @param recipe name query
      * @return recipe with lowest Levenshtein Distance score
      */
-    private Recipe searchRecipe(String name) {
+    Recipe searchRecipe(String name) {
     	HashMap<Integer, String> scoresMap = new HashMap<Integer, String>();
 
     	for (int i = 0; i < recipeBook.size(); i++) {

@@ -42,8 +42,8 @@ public class Main {
                     Scanner read = new Scanner(System.in);
                     System.out.println("Enter the name of Recipe You want to search: (ex) Cake");
                     String recipeName = read.next().toLowerCase();
-                    String thisFilePath = "filePath"; // need to get filePath from recipeName.
-                    reader.searchJsonFile(thisFilePath); // all further search process should be done at "search" function at JsonReader.
+                    String thisFilePath = "recipeBook.json"; // need to get filePath from recipeName.
+                    reader.searchJsonFile(thisFilePath, recipeName); // all further search process should be done at "search" function at JsonReader.
                     break;
 
                 case "quit":

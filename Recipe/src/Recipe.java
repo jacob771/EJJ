@@ -101,4 +101,6 @@ public class Recipe {
      * @return
      */
     public ArrayList<String> getInstructions() { return this.instructions; }
+
+    }
 }
