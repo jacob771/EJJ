@@ -3,17 +3,16 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class JsonReader {
-    private static Recipe recipe;
-    private static RecipeBook book = new RecipeBook();
     private static ObjectMapper mapper = new ObjectMapper();
-    private static boolean cont = true;
     private static ArrayList<String> ingredients = new ArrayList<String>();
     private static ArrayList<String> instructions = new ArrayList<String>();
     private static String recipesFilePath = "recipeBook.json";
@@ -25,29 +24,33 @@ public class JsonReader {
     /**
      * Create Recipe
      * */
-    public static void createRecipe() {
+    public static void createRecipe(RecipeBook book) {
         ArrayList<String> ingredients = new ArrayList<String>();
         ArrayList<String> instructions = new ArrayList<String>();
 
         Scanner input = new Scanner(System.in);
-        System.out.println("What is the name of this recipe?: ");
-        String name = input.next();
+        System.out.println("\nWhat is the name of this recipe?: ");
+        System.out.print("Enter your input: ");
+        String name = input.nextLine();
 
         Scanner descriptionInput = new Scanner(System.in);
-        System.out.println("Please enter a short description?: ");
+        System.out.println("\nPlease enter a short description?: ");
+        System.out.print("Enter your input: ");
         String description = descriptionInput.nextLine();
-        cont = true;
+        Boolean cont = true;
 
         while (cont) {
             Scanner ingredientInput = new Scanner(System.in);
-            System.out.println("Add an ingredient: ");
+            System.out.println("\nAdd an ingredient: ");
+            System.out.print("Enter your input: ");
             String ingredient = ingredientInput.nextLine();
             ingredients.add(ingredient);
 
             while (true) {
                 Scanner inputCont = new Scanner(System.in);
-                System.out.println("Are you going to add another? Yes or No: ");
-                String inputContinue1 = inputCont.nextLine();
+                System.out.println("\nAre you going to add another? Yes or No: ");
+                System.out.print("Enter your input: ");
+                String inputContinue1 = inputCont.next();
 
                 if (inputContinue1.toLowerCase().equals("no") || inputContinue1.toLowerCase().equals("yes")) {
                     cont = (inputContinue1.toLowerCase().equals("no")) ? false : true;
@@ -63,12 +66,14 @@ public class JsonReader {
         cont = true;
         while (cont) {
             Scanner input3 = new Scanner(System.in);
-            System.out.println("Please add new step to the instructions: ");
-            instructions.add(input3.next());
+            System.out.println("\nPlease add new step to the instructions: ");
+            System.out.print("Enter your input: ");
+            instructions.add(input3.nextLine());
 
             while (true) {
                 Scanner inputCont2 = new Scanner(System.in);
-                System.out.println("Are you going to update another step? Yes or No: ");
+                System.out.println("\nAre you going to update another step? Yes or No: ");
+                System.out.print("Enter your input: ");
                 String inputContinue2 = inputCont2.next();
 
                 if (inputContinue2.toLowerCase().equals("no") || inputContinue2.toLowerCase().equals("yes")) {
@@ -87,8 +92,8 @@ public class JsonReader {
 
         try {
             Recipe newRecipe = new Recipe(name, description, ingredients, instructions);
-            book.recipeBook.add(newRecipe);
-            mapper.writeValueAsString(newRecipe);
+            book.addRecipe(newRecipe);
+            addToJsonFile(book.getRecipeBook());
         }
 
         catch (Exception e) {
@@ -130,41 +135,75 @@ public class JsonReader {
      * Formats and adds the Recipe arrayList to the Json File
      *
      * @param recipes
-     * @param filePath
      */
-    public static void addToJsonFile(ArrayList<Recipe> recipes, String filePath) {
+    public static void addToJsonFile(ArrayList<Recipe> recipes) {
         ObjectMapper mapper = new ObjectMapper();
         try {
-            System.out.println(mapper.writeValueAsString(recipes));
-            mapper.writeValue(new File(filePath), recipes);
+            mapper.writeValue(new File(recipesFilePath), recipes);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Reading Json File (Printing Out)
-     * */
+    // select a specific recipe when multiple recipes are returned from search
+    public static Recipe selectSpecificRecipe(ArrayList<Recipe> foundRecipes){
+        StringBuilder found = new StringBuilder();
+        Scanner scanner = new Scanner(System.in);
+        int n = foundRecipes.size();
 
-    public static void searchJsonFile(String filePath, String recipeName) throws IOException {
+        found.append("The following recipes were found. Which recipe did you mean?: \n");
+
+        for (int i = 0; i < foundRecipes.size(); i++) {
+            found.append(String.valueOf(i + 1) + ". " + foundRecipes.get(i).getName() + "\n");
+        }
+
+        System.out.println(found);
+        System.out.print("Enter your input: ");
+
+        int choice = 0;
+        try {
+            choice = scanner.nextInt();
+        }
+
+        catch(InputMismatchException e){
+            ;
+        }
+
+        if (choice > n){
+            System.out.println("Please enter a valid input.");
+            return selectSpecificRecipe(foundRecipes);
+        }
+
+        return foundRecipes.get(choice);
+
+    }
+
+    public static void browseRecipes(RecipeBook book){
+        System.out.println("The recipes available are: ");
+        ArrayList<Recipe> recipeBook = book.getRecipeBook();
+
+        for (int i = 0; i < recipeBook.size(); i++){
+            System.out.println(String.valueOf(i + 1) + ". " + recipeBook.get(i).getName());
+        }
+    }
+
+    public static Recipe searchRecipeBook(RecipeBook recipeBook, String recipeName) throws IOException {
+        Recipe found = null;
+
         if (mapper == null) {
             System.out.println("No such info");
         } else {
             try {
-                ArrayList<Recipe> recipeList = getRecipesFromJsonFile(filePath);
-                RecipeBook recipeBook = new RecipeBook(recipeList);
                 ArrayList<Recipe> foundRecipes = recipeBook.searchRecipe(recipeName);
 
                 if (foundRecipes.size() < 0) {
                     System.out.println("Sorry... no recipes with that name was found. Please try again!");
                 } else if (foundRecipes.size() > 0 && foundRecipes.size() < 2) {
-                    System.out.println("The recipe was found!");
-                    System.out.println("recipe name: " + foundRecipes.get(0).getName());
+                    found = foundRecipes.get(0);
+                    System.out.println("\nThe recipe was found!");
+                    System.out.println("Recipe name: " + found.getName());
                 } else {
-                    System.out.println("The following recipes were found. Which recipe did you mean?: ");
-                    for (int i = 0; i < foundRecipes.size(); i++) {
-                        System.out.println("* " + foundRecipes.get(i).getName());
-                    }
+                    found = selectSpecificRecipe(foundRecipes);
                 }
                 //System.out.println(mapper.writeValueAsString(book.getRecipe(filePath)));
             } catch (IndexOutOfBoundsException e) {
@@ -173,11 +212,72 @@ public class JsonReader {
                 e.printStackTrace();
             }
         }
+
+        return found;
     }
 
-    public static void deleteJsonFile(String filePath){
-        /**
-         * To be filled In.
-         * */
+    public static void exploreRecipe(Recipe recipe){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Would you like to explore the recipe?\n (1) read entire recipe\n (2) step through instructions\n (3) back to main menu");
+        System.out.print("Enter your input: ");
+        int choice = 0;
+        int count = 0;
+        try {
+            choice = scanner.nextInt();
+        }
+
+        catch(InputMismatchException e){
+            ;
+        }
+
+        switch (choice){
+            case 1:
+                recipe.readEntireInstruction();
+                break;
+
+            case 2:
+                System.out.println("\nINSTRUCTIONS: ");
+                recipe.readInstructionStep(count);
+                count++;
+                while (true) {
+                    Scanner userInput = new Scanner(System.in);
+                    System.out.println("\nDo you want to see the next instruction? (1) yes (2) no");
+                    System.out.print("Enter your input: ");
+                    try{
+                        choice = userInput.nextInt();
+                    }
+
+                    catch(InputMismatchException e){
+                        choice = 0;
+                    }
+
+
+                    if (choice == 1) {
+                        recipe.readInstructionStep(count);
+                        count++;
+
+                        if (count >= recipe.getInstructions().size()){
+                            System.out.println("End of recipe instructions.");
+                            break;
+                        }
+
+                    } else if (choice == 2){
+                        break;
+                    }
+
+                    else{
+                        System.out.println("Please enter a valid input.");
+                    }
+                }
+
+                break;
+
+            case 3:
+                break;
+
+            default:
+                System.out.println("Please enter a valid input");
+                exploreRecipe(recipe);
+        }
     }
 }

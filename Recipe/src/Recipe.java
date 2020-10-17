@@ -102,5 +102,26 @@ public class Recipe {
      */
     public ArrayList<String> getInstructions() { return this.instructions; }
 
+    public void readInstructionStep(int count){
+        System.out.println(String.valueOf(count + 1) + ". " + instructions.get(count));
     }
+
+    public void readEntireInstruction(){
+        int n = instructions.size();
+        int m = ingredients.size();
+        System.out.println("\nRECIPE NAME: " + this.name);
+        System.out.println("DESCRIPTION: " + this.description + "\n");
+        System.out.println("INGREDIENTS:");
+
+        for (int i = 0; i < m; i++){
+            System.out.println(String.valueOf(i + 1) + ". " + ingredients.get(i));
+        }
+
+        System.out.println();
+        System.out.println("INSTRUCTIONS: ");
+        for (int i = 0; i < n; i++){
+            System.out.println(String.valueOf(i + 1) + ". " + instructions.get(i));
+        }
+    }
+
 }
