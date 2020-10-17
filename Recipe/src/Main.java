@@ -36,16 +36,16 @@ public class Main {
                 case "create":
                     reader.createRecipe();
                     break;
-/*
+
                 case "search":
                     // to be modified by Joanne
                     Scanner read = new Scanner(System.in);
                     System.out.println("Enter the name of Recipe You want to search: (ex) Cake");
                     String recipeName = read.next().toLowerCase();
-                    String thisFilePath = ; // need to get filePath from recipeName.
+                    String thisFilePath = "filePath"; // need to get filePath from recipeName.
                     reader.searchJsonFile(thisFilePath); // all further search process should be done at "search" function at JsonReader.
                     break;
-*/
+
                 case "quit":
                     System.out.println("End the program.");
                     program = false;
