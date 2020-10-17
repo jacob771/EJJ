@@ -1,13 +1,9 @@
-import java.io.*;
-import java.util.*;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
     private static Recipe recipe = new Recipe();
@@ -40,7 +36,7 @@ public class Main {
                 case "create":
                     reader.createRecipe();
                     break;
-
+/*
                 case "search":
                     // to be modified by Joanne
                     Scanner read = new Scanner(System.in);
@@ -49,7 +45,7 @@ public class Main {
                     String thisFilePath = ; // need to get filePath from recipeName.
                     reader.searchJsonFile(thisFilePath); // all further search process should be done at "search" function at JsonReader.
                     break;
-
+*/
                 case "quit":
                     System.out.println("End the program.");
                     program = false;
