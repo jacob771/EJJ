@@ -1,49 +1,59 @@
-import java.util.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.simple.parser.ParseException;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
-    public Main() {
-    }
+    private static Recipe recipe = new Recipe();
+    private static RecipeBook book = new RecipeBook();
+    private static ObjectMapper mapper = new ObjectMapper();
+    private static String choice = null;
+    private static JsonReader reader = new JsonReader(mapper);
+    private static ArrayList<String> ingredients = new ArrayList<String>();
+    private static ArrayList<String> instructions = new ArrayList<String>();
+    private static String recipesFilePath = "recipeBook.json";
 
-    public static void main (String[] args) {
-        RecipeBook recipeBook = new RecipeBook(new ArrayList<Recipe>());
+    public static void main(String[] args) throws IOException, ParseException {
 
-        while (true) {
+        boolean program = true;
 
-            /**
-             * I/O Function
-             * */
+        while (program) {
+            Scanner function = new Scanner(System.in);
+            System.out.println("Which Function Do You Want? (1) Delete (2) Create (3) Search (4) Quit");
+            choice = function.next().toLowerCase();
+            switch (choice) {
 
-            Scanner input = new Scanner(System.in);
+                /**
+                 * More functions could be added if you want.
+                 * */
 
-            System.out.println("If you want to search recipe in the database, please enter the name of recipe or part of ingredients: ");
-            String recipe = input.next();
+                case "delete":
+                    reader.deleteJsonFile(recipesFilePath);
+                    break;
 
-            /**
-             * Create New Recipe and Store in RecipeBook
-             * */
+                case "create":
+                    reader.createRecipe();
+                    break;
 
-            if (recipeBook.recipeBook.contains(recipe)) {
-                System.out.println("RecipeBook Does Exist!");
-                int pick = recipeBook.recipeBook.indexOf(recipe);
-                Object choice = recipeBook.recipeBook.get(pick);
-            }
+                case "search":
+                    // to be modified by Joanne
+                    Scanner read = new Scanner(System.in);
+                    System.out.println("Enter the name of Recipe You want to search: (ex) Cake");
+                    String recipeName = read.next().toLowerCase();
+                    String thisFilePath = "recipeBook.json"; // need to get filePath from recipeName.
+                    reader.searchJsonFile(thisFilePath, recipeName); // all further search process should be done at "search" function at JsonReader.
+                    break;
 
-            input.close();
+                case "quit":
+                    System.out.println("End the program.");
+                    program = false;
+                    break;
 
-            System.out.println("Wanna Type Another Input?: Yes or No (lowercase or uppercase does not matter)");
-            String cont = input.next();
-            cont.toLowerCase();
-
-            if (cont == "yes") {
-                continue;
-            }
-
-            else if (cont == "no") {
-                break;
-            }
-
-            else {
-                System.out.println("Wrong Command! Options are only yes/no.");
+                default:
+                    System.out.println("Enter Correct Option: ");
+                    break;
             }
         }
     }
