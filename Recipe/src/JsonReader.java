@@ -48,15 +48,24 @@ public class JsonReader {
 
             while (true) {
                 Scanner inputCont = new Scanner(System.in);
-                System.out.println("\nAre you going to add another? Yes or No: ");
+                System.out.println("\nAre you going to add another? (1) Yes or (2) No: ");
                 System.out.print("Enter your input: ");
-                String inputContinue1 = inputCont.next();
+                int inputContinue1 = 0;
 
-                if (inputContinue1.toLowerCase().equals("no") || inputContinue1.toLowerCase().equals("yes")) {
-                    cont = (inputContinue1.toLowerCase().equals("no")) ? false : true;
+                try {
+                    inputContinue1 = inputCont.nextInt();
+                }
+
+                catch(InputMismatchException e){
+                    ;
+                }
+
+
+                if (inputContinue1 == 1 || inputContinue1 == 2) {
+                    cont = (inputContinue1 == 2) ? false : true;
                     break;
                 } else {
-                    System.out.println("Type only Yes or No.");
+                    System.out.println("Invalid input. Type 1 for  Yes or 2 for No.");
                     continue;
                 }
             }
@@ -72,15 +81,23 @@ public class JsonReader {
 
             while (true) {
                 Scanner inputCont2 = new Scanner(System.in);
-                System.out.println("\nAre you going to update another step? Yes or No: ");
+                System.out.println("\nAre you going to update another step? (1) Yes or (2) No: ");
                 System.out.print("Enter your input: ");
-                String inputContinue2 = inputCont2.next();
+                int inputContinue2 = 0;
 
-                if (inputContinue2.toLowerCase().equals("no") || inputContinue2.toLowerCase().equals("yes")) {
-                    cont = (inputContinue2.toLowerCase().equals("no")) ? false : true;
+                try {
+                    inputContinue2 = inputCont2.nextInt();
+                }
+
+                catch(InputMismatchException e){
+                    ;
+                }
+
+                if (inputContinue2 == 2 || inputContinue2 == 1) {
+                    cont = (inputContinue2 == 2) ? false : true;
                     break;
                 } else {
-                    System.out.println("Type only Yes or No.");
+                    System.out.println("Invalid input. Type 1 for  Yes or 2 for No.");
                     continue;
                 }
             }
@@ -94,6 +111,7 @@ public class JsonReader {
             Recipe newRecipe = new Recipe(name, description, ingredients, instructions);
             book.addRecipe(newRecipe);
             addToJsonFile(book.getRecipeBook());
+            System.out.println("RECIPE CREATED SUCCESSFULLY!");
         }
 
         catch (Exception e) {
@@ -174,7 +192,7 @@ public class JsonReader {
             return selectSpecificRecipe(foundRecipes);
         }
 
-        return foundRecipes.get(choice);
+        return foundRecipes.get(choice - 1);
 
     }
 
@@ -190,30 +208,21 @@ public class JsonReader {
     public static Recipe searchRecipeBook(RecipeBook recipeBook, String recipeName) throws IOException {
         Recipe found = null;
 
-    public static void searchJsonFile(String filePath, String recipeName) throws IOException {
         if (mapper == null) {
             System.out.println("No such info");
         } else {
             try {
-            	ArrayList<Recipe> recipeList = getRecipesFromJsonFile(filePath);
-            	RecipeBook recipeBook = new RecipeBook(recipeList);
-            	try {
-            	    Integer.parseInt(recipeName);
-            	    System.out.println("That was an invalid input. Please try again!");
-            	} catch (NumberFormatException e) {
-            		ArrayList<Recipe> foundRecipes = recipeBook.searchRecipe(recipeName);
-            		if (foundRecipes.size() == 0) {
-                		System.out.println("Sorry... no recipes with that name was found. Please try again!");
-                	} else if (foundRecipes.size() > 0 && foundRecipes.size() < 2) {
-                		System.out.println("The recipe was found!");
-                		System.out.println("recipe name: " + foundRecipes.get(0).getName());
-                	} else {
-                		System.out.println("The following recipes were found. Which recipe did you mean?: ");
-                		for (int i = 0; i < foundRecipes.size(); i++) {
-                			System.out.println("* " + foundRecipes.get(i).getName());
-                		}
-                	}
-            	}
+                ArrayList<Recipe> foundRecipes = recipeBook.searchRecipe(recipeName);
+
+                if (foundRecipes.size() <= 0) {
+                    System.out.println("Sorry... no recipes with the name " + recipeName +  " was found. Please try again!");
+                } else if (foundRecipes.size() > 0 && foundRecipes.size() < 2) {
+                    found = foundRecipes.get(0);
+                    System.out.println("\nThe recipe was found!");
+                    System.out.println("Recipe name: " + found.getName());
+                } else {
+                    found = selectSpecificRecipe(foundRecipes);
+                }
                 //System.out.println(mapper.writeValueAsString(book.getRecipe(filePath)));
             } catch (IndexOutOfBoundsException e) {
                 e.printStackTrace();
@@ -221,7 +230,6 @@ public class JsonReader {
                 e.printStackTrace();
             }
         }
-
         return found;
     }
 
