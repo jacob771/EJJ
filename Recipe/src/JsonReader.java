@@ -22,8 +22,10 @@ public class JsonReader {
     }
 
     /**
-     * Create Recipe
-     * */
+     * Reads the different recipes from the Json File and returns them as an ArrayList of Recipes
+     *
+     * @param book
+     */
     public static void createRecipe(RecipeBook book) {
         ArrayList<String> ingredients = new ArrayList<String>();
         ArrayList<String> instructions = new ArrayList<String>();
@@ -39,6 +41,7 @@ public class JsonReader {
         String description = descriptionInput.nextLine();
         Boolean cont = true;
 
+        //add ingredients
         while (cont) {
             Scanner ingredientInput = new Scanner(System.in);
             System.out.println("\nAdd an ingredient: ");
@@ -72,6 +75,7 @@ public class JsonReader {
 
         }
 
+        //add instructions
         cont = true;
         while (cont) {
             Scanner input3 = new Scanner(System.in);
@@ -104,7 +108,7 @@ public class JsonReader {
         }
 
         /**
-         * Need maintenance - Saving into Json Array
+         Updating recipebook and Json file
          * */
 
         try {
@@ -163,23 +167,29 @@ public class JsonReader {
         }
     }
 
-    // select a specific recipe when multiple recipes are returned from search
+    /**
+     * Enables the user to select a specific recipe from a list of recipes returned from search
+     *
+     * @param foundRecipes
+     * @return selected recipe
+     */
     public static Recipe selectSpecificRecipe(ArrayList<Recipe> foundRecipes){
         StringBuilder found = new StringBuilder();
         Scanner scanner = new Scanner(System.in);
         int n = foundRecipes.size();
+        Recipe selected = null;
 
-        found.append("The following recipes were found. Which recipe did you mean?: \n");
-
-        for (int i = 0; i < foundRecipes.size(); i++) {
+        for (int i = 0; i < n; i++) {
             found.append(String.valueOf(i + 1) + ". " + foundRecipes.get(i).getName() + "\n");
         }
+
+        found.append(String.valueOf(n + 1) + ". " + "back to main menu.");
 
         System.out.println(found);
         System.out.print("Enter your input: ");
 
         int choice = 0;
-        try {
+        try {   //input validation
             choice = scanner.nextInt();
         }
 
@@ -187,24 +197,36 @@ public class JsonReader {
             ;
         }
 
-        if (choice > n){
+        if (choice > n + 1){    //user choice out of bounds
             System.out.println("Please enter a valid input.");
             return selectSpecificRecipe(foundRecipes);
         }
 
-        return foundRecipes.get(choice - 1);
+        if (choice <= n) selected = foundRecipes.get(choice - 1);
 
+        return selected;
     }
 
-    public static void browseRecipes(RecipeBook book){
-        System.out.println("The recipes available are: ");
+    /**
+     * browse all recipes available and choose one
+     *
+     * @param book
+     * @return selected recipe
+     */
+    public static Recipe browseRecipes(RecipeBook book){
+        System.out.println("The following recipes are available. Please enter the number corresponding to a recipe to choose the one you want.");
         ArrayList<Recipe> recipeBook = book.getRecipeBook();
 
-        for (int i = 0; i < recipeBook.size(); i++){
-            System.out.println(String.valueOf(i + 1) + ". " + recipeBook.get(i).getName());
-        }
+        return selectSpecificRecipe(recipeBook);
     }
 
+    /**
+     * search recipe from recipe book
+     *
+     * @param recipeBook
+     * @param  recipeName
+     * @return found recipe
+     */
     public static Recipe searchRecipeBook(RecipeBook recipeBook, String recipeName) throws IOException {
         Recipe found = null;
 
@@ -216,11 +238,12 @@ public class JsonReader {
 
                 if (foundRecipes.size() <= 0) {
                     System.out.println("Sorry... no recipes with the name " + recipeName +  " was found. Please try again!");
-                } else if (foundRecipes.size() > 0 && foundRecipes.size() < 2) {
+                } else if (foundRecipes.size() == 1) {
                     found = foundRecipes.get(0);
                     System.out.println("\nThe recipe was found!");
                     System.out.println("Recipe name: " + found.getName());
                 } else {
+                    System.out.println("The following recipes were found. Which recipe did you mean?: \n");
                     found = selectSpecificRecipe(foundRecipes);
                 }
                 //System.out.println(mapper.writeValueAsString(book.getRecipe(filePath)));
@@ -233,9 +256,14 @@ public class JsonReader {
         return found;
     }
 
+    /**
+     * explore selected recipe
+     *
+     * @param recipe
+     */
     public static void exploreRecipe(Recipe recipe){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Would you like to explore the recipe?\n (1) read entire recipe\n (2) step through instructions\n (3) back to main menu");
+        System.out.println("Would you like to explore the " + recipe.getName() + " recipe?\n (1) read entire recipe\n (2) step through instructions\n (3) back to main menu");
         System.out.print("Enter your input: ");
         int choice = 0;
         int count = 0;
@@ -248,11 +276,11 @@ public class JsonReader {
         }
 
         switch (choice){
-            case 1:
+            case 1: //explore entire recipe
                 recipe.readEntireInstruction();
                 break;
 
-            case 2:
+            case 2: //step through recipe step by step
                 System.out.println("\nINSTRUCTIONS: ");
                 recipe.readInstructionStep(count);
                 count++;
@@ -274,7 +302,7 @@ public class JsonReader {
                         count++;
 
                         if (count >= recipe.getInstructions().size()){
-                            System.out.println("End of recipe instructions.");
+                            System.out.println("END OF RECIPE INSTRUCTIONS");
                             break;
                         }
 
