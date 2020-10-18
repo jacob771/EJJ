@@ -63,7 +63,6 @@ public class JsonReader {
                     ;
                 }
 
-
                 if (inputContinue1 == 1 || inputContinue1 == 2) {
                     cont = (inputContinue1 == 2) ? false : true;
                     break;
@@ -88,7 +87,7 @@ public class JsonReader {
                 System.out.println("\nAre you going to update another step? (1) Yes or (2) No: ");
                 System.out.print("Enter your input: ");
                 int inputContinue2 = 0;
-
+                
                 try {
                     inputContinue2 = inputCont2.nextInt();
                 }
@@ -96,7 +95,7 @@ public class JsonReader {
                 catch(InputMismatchException e){
                     ;
                 }
-
+                
                 if (inputContinue2 == 2 || inputContinue2 == 1) {
                     cont = (inputContinue2 == 2) ? false : true;
                     break;
@@ -298,13 +297,14 @@ public class JsonReader {
 
 
                     if (choice == 1) {
-                        recipe.readInstructionStep(count);
-                        count++;
 
                         if (count >= recipe.getInstructions().size()){
                             System.out.println("END OF RECIPE INSTRUCTIONS");
                             break;
                         }
+                        
+                        recipe.readInstructionStep(count);
+                        count++;
 
                     } else if (choice == 2){
                         break;
