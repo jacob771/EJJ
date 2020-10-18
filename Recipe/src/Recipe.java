@@ -3,7 +3,7 @@ import java.util.*;
 public class Recipe {
 
     /**
-     * Vaiables
+     * Variables
      * */
 
     private String name;
