@@ -3,14 +3,12 @@
 //import org.json.simple.parser.JSONParser;
 //import org.json.simple.parser.ParseException;
 
-import java.util.*;
-
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.*;
+import java.util.*;
 
 public class RecipeBook {
-    ArrayList<Recipe> recipeBook = new ArrayList<Recipe>();
+    ArrayList<Recipe> recipeBook;
 
     public RecipeBook (ArrayList<Recipe> recipeBook) {
     	this.recipeBook = recipeBook;
@@ -28,7 +26,7 @@ public class RecipeBook {
     /**
      * Add new Recipe
      */
-    private void addRecipe (Recipe recipe) {
+    public void addRecipe (Recipe recipe) {
         recipeBook.add(recipe);
     }
 
