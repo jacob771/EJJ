@@ -153,18 +153,22 @@ public class JsonReader {
             try {
             	ArrayList<Recipe> recipeList = getRecipesFromJsonFile(filePath);
             	RecipeBook recipeBook = new RecipeBook(recipeList);
-            	ArrayList<Recipe> foundRecipes = recipeBook.searchRecipe(recipeName);
-            	
-            	if (foundRecipes.size() < 0) {
-            		System.out.println("Sorry... no recipes with that name was found. Please try again!");
-            	} else if (foundRecipes.size() > 0 && foundRecipes.size() < 2) {
-            		System.out.println("The recipe was found!");
-            		System.out.println("recipe name: " + foundRecipes.get(0).getName());
-            	} else {
-            		System.out.println("The following recipes were found. Which recipe did you mean?: ");
-            		for (int i = 0; i < foundRecipes.size(); i++) {
-            			System.out.println("* " + foundRecipes.get(i).getName());
-            		}
+            	try {
+            	    Integer.parseInt(recipeName);
+            	    System.out.println("That was an invalid input. Please try again!");
+            	} catch (NumberFormatException e) {
+            		ArrayList<Recipe> foundRecipes = recipeBook.searchRecipe(recipeName);
+            		if (foundRecipes.size() == 0) {
+                		System.out.println("Sorry... no recipes with that name was found. Please try again!");
+                	} else if (foundRecipes.size() > 0 && foundRecipes.size() < 2) {
+                		System.out.println("The recipe was found!");
+                		System.out.println("recipe name: " + foundRecipes.get(0).getName());
+                	} else {
+                		System.out.println("The following recipes were found. Which recipe did you mean?: ");
+                		for (int i = 0; i < foundRecipes.size(); i++) {
+                			System.out.println("* " + foundRecipes.get(i).getName());
+                		}
+                	}
             	}
                 //System.out.println(mapper.writeValueAsString(book.getRecipe(filePath)));
             } catch (IndexOutOfBoundsException e) {

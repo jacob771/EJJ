@@ -71,24 +71,30 @@ public class RecipeBook {
     ArrayList<Recipe> searchRecipe(String name) {
     	HashMap<Recipe, Integer> scoresMap = new HashMap<Recipe, Integer>();
     	ArrayList<Recipe> foundRecipes = new ArrayList<Recipe>();
+    	ArrayList<Recipe> sortedFoundRecipes = new ArrayList<Recipe>();
     	
     	for (int i = 0; i < recipeBook.size(); i++) {
-    		int distance = StringUtils.getLevenshteinDistance(recipeBook.get(i).getName(), name);
-    		scoresMap.put(recipeBook.get(i), distance);
+    		if (recipeBook.get(i).getName().charAt(0) == name.charAt(0) || recipeBook.get(i).getName().contains(name)) {
+    			foundRecipes.add(recipeBook.get(i));
+    		}
+    	}
+    	
+    	for (int i = 0; i < foundRecipes.size(); i++) {
+    		int distance = StringUtils.getLevenshteinDistance(foundRecipes.get(i).getName(), name);
+    		scoresMap.put(foundRecipes.get(i), distance);
     	}
     	List<Integer> mapValues = new ArrayList<>(scoresMap.values());
     	Collections.sort(mapValues);
     	
     	//get iterator for scoresMap 
         Iterator scoresIterator = scoresMap.entrySet().iterator(); 
-  
+        
         //iterate thru scoresMap
         while (scoresIterator.hasNext()) { 
             Map.Entry<Recipe,Integer> mapElement = (Map.Entry<Recipe,Integer>)scoresIterator.next(); 
-            if (mapElement.getValue() == mapValues.get(0)) {
-            	foundRecipes.add(mapElement.getKey());
-            }
+            //System.out.println(mapElement.getKey().getName() + ": " + mapElement.getValue());
+            sortedFoundRecipes.add(mapElement.getKey());
         }
-        return foundRecipes;
+        return sortedFoundRecipes;
     }
 }
