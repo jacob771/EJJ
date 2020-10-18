@@ -25,35 +25,10 @@ public class RecipeBook {
 
     /**
      * Add new Recipe
+     * @param recipe
      */
     public void addRecipe (Recipe recipe) {
         recipeBook.add(recipe);
-    }
-
-    /**
-     * Delete Recipe
-     * */
-    private void deleteRecipe (Recipe recipe) {
-        int index = recipeBook.indexOf(recipe);
-        recipeBook.remove(index);
-    }
-
-    Recipe getRecipe(String name) {
-        int index = recipeBook.indexOf(name);
-        Recipe recipe = recipeBook.get(index);
-        return recipe;
-    }
-
-    private void modifyRecipe (String name, String description, ArrayList<String> ingredients, ArrayList<String> instructions) {
-        Recipe recipe = getRecipe(name);
-        recipeBook.remove(recipe);
-        recipe.setRecipe(name, description, ingredients, instructions);
-        recipeBook.add(recipe);
-    }
-
-    private void createRecipe (String name, String description, ArrayList<String> ingredients, ArrayList<String> instructions) {
-        Recipe newRecipe = new Recipe(name, description, ingredients, instructions);
-        recipeBook.add(newRecipe);
     }
     
     /**
@@ -63,7 +38,7 @@ public class RecipeBook {
      * 		Store scores in HashMap and reorder HashMap from lowest to highest.
      * 		Store all recipes that have the lowest score in an ArrayList and return.
      * 
-     * @param recipe name query
+     * @param name
      * @return ArrayList of recipes that have the lowest Levenshtein Distance score
      */
     ArrayList<Recipe> searchRecipe(String name) {

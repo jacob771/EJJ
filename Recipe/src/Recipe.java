@@ -102,10 +102,18 @@ public class Recipe {
      */
     public ArrayList<String> getInstructions() { return this.instructions; }
 
+    /**
+     * read instuction step
+     *
+     * @param count
+     */
     public void readInstructionStep(int count){
         System.out.println(String.valueOf(count + 1) + ". " + instructions.get(count));
     }
 
+    /**
+     * read entire recipe
+     */
     public void readEntireInstruction(){
         int n = instructions.size();
         int m = ingredients.size();
