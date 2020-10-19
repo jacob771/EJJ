@@ -42,7 +42,8 @@ public class RecipeBook {
         ArrayList<Recipe> sortedFoundRecipes = new ArrayList<Recipe>();
 
         for (int i = 0; i < recipeBook.size(); i++) {
-            if (recipeBook.get(i).getName().charAt(0) == name.charAt(0) || recipeBook.get(i).getName().contains(name)) {
+            String recipeName = recipeBook.get(i).getName().toLowerCase();
+            if (recipeName.charAt(0) == name.charAt(0) || recipeName.contains(name)) {
                 foundRecipes.add(recipeBook.get(i));
             }
         }
