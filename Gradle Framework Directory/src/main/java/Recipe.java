@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Recipe {
+public class Recipe implements Comparable<Recipe>{
 
     /**
      * Variables
@@ -132,4 +132,8 @@ public class Recipe {
         }
     }
 
+    @Override
+    public int compareTo(Recipe other) {
+        return(this.name.compareTo(other.getName()));
+    }
 }
