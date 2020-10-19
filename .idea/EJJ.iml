@@ -18,8 +18,16 @@
     <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="com.fasterxml.jackson.core:jackson-databind:2.7.3" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
+    <orderEntry type="library" exported="" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" exported="" name="com.guicedee.services:org.apache.cxf:1.0.2.16-jre13" level="project" />
     <orderEntry type="library" exported="" name="org.apache.commons:commons-lang3:3.11" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet:jstl:1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.11" level="project" />
+    <orderEntry type="library" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
+    <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.12.0-rc1" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.0-rc1" level="project" />
+    <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.12.0-rc1" level="project" />
   </component>
 </module>
