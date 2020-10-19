@@ -25,6 +25,7 @@ public class Main {
 
         //start of program
         while (program) {
+            book.sort();
             Scanner function = new Scanner(System.in);
             System.out.println("\nWhich Function Do You Want? (1) Create recipe (2) Search recipe (3) Browse all recipes (4) Quit");
             System.out.print("Enter your input: ");
@@ -56,7 +57,6 @@ public class Main {
 
                 case 3: //browse all recipes
                     Recipe selected = reader.browseRecipes(book);
-
                     if (selected != null){
                         reader.exploreRecipe(selected);
                     }

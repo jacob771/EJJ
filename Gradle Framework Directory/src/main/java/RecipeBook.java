@@ -40,7 +40,6 @@ public class RecipeBook {
         HashMap<Recipe, Integer> scoresMap = new HashMap<Recipe, Integer>();
         ArrayList<Recipe> foundRecipes = new ArrayList<Recipe>();
         ArrayList<Recipe> sortedFoundRecipes = new ArrayList<Recipe>();
-
         for (int i = 0; i < recipeBook.size(); i++) {
             String recipeName = recipeBook.get(i).getName().toLowerCase();
             if (recipeName.charAt(0) == name.charAt(0) || recipeName.contains(name)) {
@@ -65,5 +64,9 @@ public class RecipeBook {
             sortedFoundRecipes.add(mapElement.getKey());
         }
         return sortedFoundRecipes;
+    }
+
+    public void sort() {
+        Collections.sort(this.recipeBook);
     }
 }

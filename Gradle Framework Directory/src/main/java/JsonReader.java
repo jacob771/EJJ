@@ -215,7 +215,6 @@ public class JsonReader {
     public static Recipe browseRecipes(RecipeBook book){
         System.out.println("The following recipes are available. Please enter the number corresponding to a recipe to choose the one you want.");
         ArrayList<Recipe> recipeBook = book.getRecipeBook();
-
         return selectSpecificRecipe(recipeBook);
     }
 
@@ -268,10 +267,8 @@ public class JsonReader {
         int count = 0;
         try {
             choice = scanner.nextInt();
-        }
-
-        catch(InputMismatchException e){
-            ;
+        } catch(InputMismatchException e){
+            e.printStackTrace();
         }
 
         switch (choice){
